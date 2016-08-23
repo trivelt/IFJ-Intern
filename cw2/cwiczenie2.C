@@ -6,7 +6,7 @@
 #include <iostream>
 using namespace std;
 
-void cwiczenie2::Loop()
+void cwiczenie2::Loop(const char *filename)
 {
    if (fChain == 0) return;
 
@@ -43,7 +43,7 @@ void cwiczenie2::Loop()
       nb = fChain->GetEntry(jentry);   nbytes += nb;
    }
 
-   TFile *file = new TFile("histogramy1.root", "RECREATE");
+   TFile *file = new TFile(filename, "RECREATE");
    h_m->Write();
    h_x1->Write();
    h_m_cond->Write();
@@ -52,9 +52,29 @@ void cwiczenie2::Loop()
 
 }
 
-int main()
+int main(int argc, char** argv)
 {
-    cwiczenie2 cw;
-    cw.Loop();
+    char* sourceFile = "mc_sample1.root";
+    char* destinationFile = "histogramy1.root";
+    if(argc == 2)
+    {
+        sourceFile = argv[1];
+    }
+    else if(argc == 3)
+    {
+        sourceFile = argv[1];
+        destinationFile = argv[2];
+    }
+    else
+    {
+        cout << "Program nie otrzymal zadnych poprawnych argumentow. Uruchamianie na domyslnych wartosciach" << endl;
+    }
+
+    cout << "Tworzenie TChain sourceFile=" << sourceFile << ", destinationFile=" << destinationFile << endl;
+    TChain* chain = new TChain("ntuple");
+    chain->Add(sourceFile);
+
+    cwiczenie2 cw(chain);
+    cw.Loop(destinationFile);
     return 0;
 }

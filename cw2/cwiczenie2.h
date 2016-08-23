@@ -16,7 +16,7 @@
 
 class cwiczenie2 {
 public :
-   TTree          *fChain;   //!pointer to the analyzed TTree or TChain
+   TChain          *fChain;   //!pointer to the analyzed TTree or TChain
    Int_t           fCurrent; //!current Tree number in a TChain
 
 // Fixed size dimensions of array or collections stored in the TTree if any.
@@ -41,13 +41,13 @@ public :
    TBranch        *b_x6;   //!
    TBranch        *b_x7;   //!
 
-   cwiczenie2(TTree *tree=0);
+   cwiczenie2(TChain *tree=0);
    virtual ~cwiczenie2();
    virtual Int_t    Cut(Long64_t entry);
    virtual Int_t    GetEntry(Long64_t entry);
    virtual Long64_t LoadTree(Long64_t entry);
-   virtual void     Init(TTree *tree);
-   virtual void     Loop();
+   virtual void     Init(TChain *tree);
+   virtual void     Loop(const char* filename);
    virtual Bool_t   Notify();
    virtual void     Show(Long64_t entry = -1);
 };
@@ -55,7 +55,7 @@ public :
 #endif
 
 #ifdef cwiczenie2_cxx
-cwiczenie2::cwiczenie2(TTree *tree) : fChain(0) 
+cwiczenie2::cwiczenie2(TChain *tree) : fChain(0)
 {
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
@@ -95,7 +95,7 @@ Long64_t cwiczenie2::LoadTree(Long64_t entry)
    return centry;
 }
 
-void cwiczenie2::Init(TTree *tree)
+void cwiczenie2::Init(TChain *tree)
 {
    // The Init() function is called when the selector needs to initialize
    // a new tree or chain. Typically here the branch addresses and branch

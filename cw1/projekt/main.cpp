@@ -119,6 +119,13 @@ void analiza(){
   h_rozmiar->SetTitle("Rozklad rozmiaru paczek");
   h_rozmiar->SetMaximum(1.5e5);
   h_rozmiar->SetStats(kFALSE);
+  h_rozmiar->SetXTitle("rozmiar koszulki");
+  h_rozmiar->SetYTitle("liczba koszulek");
+  h_rozmiar->GetXaxis()->SetBinLabel(1, "S");
+  h_rozmiar->GetXaxis()->SetBinLabel(2, "M");
+  h_rozmiar->GetXaxis()->SetBinLabel(3, "L");
+  h_rozmiar->GetXaxis()->SetBinLabel(4, "XL");
+  h_rozmiar->GetXaxis()->SetBinLabel(5, "XXL");
   h_rozmiar->Draw();
   h_rozmiar_koszulka->SetLineColor(kRed);
   h_rozmiar_koszulka->SetLineStyle(3);

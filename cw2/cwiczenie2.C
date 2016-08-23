@@ -17,3 +17,10 @@ void cwiczenie2::Loop()
       nb = fChain->GetEntry(jentry);   nbytes += nb;
    }
 }
+
+int main()
+{
+    cwiczenie2 cw;
+    cw.Loop();
+    return 0;
+}

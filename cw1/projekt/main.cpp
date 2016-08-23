@@ -118,8 +118,8 @@ void analiza(){
   c1->Clear();
   h_rozmiar->SetTitle("Rozklad rozmiaru paczek");
   h_rozmiar->SetMaximum(1.5e5);
+  h_rozmiar->SetStats(kFALSE);
   h_rozmiar->Draw();
-
   h_rozmiar_koszulka->SetLineColor(kRed);
   h_rozmiar_koszulka->SetLineStyle(3);
   h_rozmiar_koszulka->Draw("same hist");

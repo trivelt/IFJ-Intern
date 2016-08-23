@@ -10,7 +10,7 @@ void cwiczenie2::Loop()
 {
    if (fChain == 0) return;
 
-   TH1F *h_m = new TH1F("h_m", "m value", 100, 2.5, 3.5);
+   TH1F *h_m = new TH1F("h_m", "m value", 100, 0, 3.5);
    TH1F *h_x1 = new TH1F("h_x1", "x1 value", 100, -2.5, 4.5);
    TH1F *h_m_cond = new TH1F("h_m_cond", "m cond", 100, 2.5, 3.5);
    TH1F *h_x1_cond = new TH1F("h_x1_cond", "x1 cond", 100, -2.5, 4.5);

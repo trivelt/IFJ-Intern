@@ -21,6 +21,11 @@ void cwiczenie2::Loop()
       {
           cout << "Przypadek nr " << jentry << "\tm=" << m << endl;
       }
+
+      if(x1 > 3)
+      {
+          cout << "Przypadek nr " << jentry << "\tx1=" << x1 << "\tm=" << m << endl;
+      }
       nb = fChain->GetEntry(jentry);   nbytes += nb;
    }
 }

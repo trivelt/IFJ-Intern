@@ -117,7 +117,6 @@ void analiza(){
 
   c1->Clear();
   h_rozmiar->SetTitle("Rozklad rozmiaru paczek");
-  h_rozmiar->SetMinimum(0);
   h_rozmiar->SetMaximum(1.5e5);
   h_rozmiar->Draw();
 
@@ -127,6 +126,13 @@ void analiza(){
   c1->SaveAs("wyk_rozmiar_koszulek.jpg");
   c1->SaveAs("wyk_rozmiar_koszulek.eps");
 
+
+  c1->Clear();
+  c1->SetLogy();
+  h_rozmiar->Draw();
+  h_rozmiar_koszulka->Draw("same hist");
+  c1->SaveAs("wyk_rozmiar_koszulek_log.jpg");
+  c1->SaveAs("wyk_rozmiar_koszulek_log.eps");
 
 }
 

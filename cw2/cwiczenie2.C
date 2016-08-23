@@ -17,6 +17,10 @@ void cwiczenie2::Loop()
    for (Long64_t jentry=0; jentry<nentries;jentry++) {
       Long64_t ientry = LoadTree(jentry);
       if (ientry < 0) break;
+      if(jentry < 10)
+      {
+          cout << "Przypadek nr " << jentry << "\tm=" << m << endl;
+      }
       nb = fChain->GetEntry(jentry);   nbytes += nb;
    }
 }

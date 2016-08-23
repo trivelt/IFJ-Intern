@@ -50,6 +50,7 @@ void analiza(){
   TH1F * h_liczba_paczek_S = new TH1F("h_liczba_paczek_S", "Ilosc paczek z koszulkami o rozmarze \"S\" w transporcie", 20, 0., 20.);
   TH1F * h_liczba_paczek_XL = new TH1F("h_liczba_paczek_XL", "Liczba paczek z koszulkami o rozmiarze XL w transporcie", 20, 0., 20.);
   TH1F * h_rozmiar = new TH1F("h_rozmiar", "rozmiar", 5, 0.5, 5.5);
+  TH1F * h_rozmiar_koszulka = new TH1F("h_rozmiar_koszulka", "rozmiar_koszulka", 5, 0.5, 5.5);
 
   for (int a=0; a<nevents; a++)
   {
@@ -64,22 +65,27 @@ void analiza(){
     for(int b=0;b<liczba_paczek_S; b++)
     {
         h_rozmiar->Fill(1);
+        h_rozmiar_koszulka->Fill(1, 15.0);
     }
     for(int b=0; b<liczba_paczek_M; b++)
     {
         h_rozmiar->Fill(2);
+        h_rozmiar_koszulka->Fill(2, 20.0);
     }
     for(int b=0; b<liczba_paczek_L; b++)
     {
         h_rozmiar->Fill(3);
+        h_rozmiar_koszulka->Fill(3, 25.0);
     }
     for(int b=0; b<liczba_paczek_XL; b++)
     {
         h_rozmiar->Fill(4);
+        h_rozmiar_koszulka->Fill(4, 25.0);
     }
     for(int b=0; b<liczba_paczek_XXL; b++)
     {
         h_rozmiar->Fill(5);
+        h_rozmiar_koszulka->Fill(5, 15.0);
     }
 
   }
@@ -110,7 +116,14 @@ void analiza(){
   c1->SaveAs("wyk_liczba_paczek_S.jpg"); //format jpg
 
   c1->Clear();
+  h_rozmiar->SetTitle("Rozklad rozmiaru paczek");
+  h_rozmiar->SetMinimum(0);
+  h_rozmiar->SetMaximum(1.5e5);
   h_rozmiar->Draw();
+
+  h_rozmiar_koszulka->SetLineColor(kRed);
+  h_rozmiar_koszulka->SetLineStyle(3);
+  h_rozmiar_koszulka->Draw("same hist");
   c1->SaveAs("wyk_rozmiar_koszulek.jpg");
   c1->SaveAs("wyk_rozmiar_koszulek.eps");
 

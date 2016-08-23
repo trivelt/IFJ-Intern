@@ -116,7 +116,7 @@ void analiza(){
   c1->SaveAs("wyk_liczba_paczek_S.jpg"); //format jpg
 
   c1->Clear();
-  h_rozmiar->SetTitle("Rozklad rozmiaru paczek");
+  h_rozmiar->SetTitle("");
   h_rozmiar->SetMaximum(1.5e5);
   h_rozmiar->SetStats(kFALSE);
   h_rozmiar->SetXTitle("rozmiar koszulki");

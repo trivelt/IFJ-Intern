@@ -1,6 +1,7 @@
 #include <iostream>
 #include <TCanvas.h>
 #include <TH1.h>
+#include <TF1.h>
 #include <TFile.h>
 #include <TROOT.h>
 
@@ -21,7 +22,12 @@ int main()
 
     TCanvas *canvas = new TCanvas();
     canvas->Clear();
+
+    h_m->Fit("gaus", "0");
     h_m->Draw();
+
+    TF1 *fit1 = (TF1*)h_m->GetFunction("gaus");
+    fit1->Draw("same");
 
     canvas->SaveAs("histogramy.eps");
     canvas->SaveAs("histogramy.jpg");

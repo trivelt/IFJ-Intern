@@ -60,7 +60,7 @@ int main()
     ntuple->SetBranchAddress("x5", &x5, &b_x5);
     int nevents = ntuple->GetEntries();
 
-    h_x4_x5 = new TH2F("h_x4_x5", "x4_x5", 50, 0.0, 3.0, 50, 0.0, 3.0);
+    h_x4_x5 = new TH2F("h_x4_x5", "x4_x5", 100, -4.0, 4.0, 100, -5.0, 3.0);
 
 
     for(int i=0; i<nevents; i++)
@@ -71,7 +71,7 @@ int main()
 
     canvas->Clear();
     h_x4_x5->SetStats(kFALSE);
-    h_x4_x5->Draw("SURF3");
+    h_x4_x5->Draw("SURF5");
 //    h_x4_x5->Draw("COLZ");
     canvas->SaveAs("x4x5.jpg");
     canvas->SaveAs("x4x5.eps");

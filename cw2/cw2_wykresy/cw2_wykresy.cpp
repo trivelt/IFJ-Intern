@@ -70,7 +70,9 @@ int main()
     }
 
     canvas->Clear();
-    h_x4_x5->Draw("hist");
+    h_x4_x5->SetStats(kFALSE);
+    h_x4_x5->Draw("SURF3");
+//    h_x4_x5->Draw("COLZ");
     canvas->SaveAs("x4x5.jpg");
     canvas->SaveAs("x4x5.eps");
 

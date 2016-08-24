@@ -2,6 +2,8 @@
 #include <TMath.h>
 #include <TRandom.h>
 #include <TH1F.h>
+#include <TF1.h>
+#include <TFormula.h>
 #include <TCanvas.h>
 //#define DEBUG
 
@@ -73,6 +75,14 @@ double* Q_distribution(int n)
     return custom_distribution(inwersja_Q, n);
 }
 
+
+Double_t myfunction(Double_t *x, Double_t *par)
+{
+   Float_t xx =x[0];
+   Double_t f = TMath::Abs(par[0]*sin(par[1]*xx)/xx);
+   return f;
+}
+
 int main()
 {
     TH1F *h_G = new TH1F("h_G", "h_G", 1000, 0, 1);
@@ -89,13 +99,33 @@ int main()
         h_Q->Fill(Q_dist[i]);
     }
 
+    TFormula* formula = new TFormula("gFormula", "5*x-4*pow(x, 5/4.0)");
+    cout << "Eval=" << formula->Eval(0.52) << endl;
+
+    TF1* gFit = new TF1("gFit", "[0]*x*pow((1-x), [1])", 0, 1);
+    gFit->SetParameter(0, 30.0);
+    gFit->SetParameter(1, 4);
+    h_G->Fit(gFit);
+
+    TF1* qFit = new TF1("qFit", "[0]*([2]-pow(x, [1]))", 0, 1);
+    qFit->SetParameter(0, 5.0);
+    qFit->SetParameter(1, 1/4.0);
+    qFit->SetParameter(2, 1);
+    h_Q->Fit(qFit);
+
+
     TCanvas* canvas = new TCanvas();
     canvas->Clear();
     h_G->SetStats(kFALSE);
+    h_G->SetTitle("G and Q");
     h_G->Draw();
-
     h_Q->SetLineColor(kRed);
     h_Q->Draw("same");
+
+    qFit->SetLineColor(kBlue);
+    gFit->Draw("same");
+    qFit->Draw("same");
+
     canvas->SaveAs("histG_Q.jpg");
 
     return 0;

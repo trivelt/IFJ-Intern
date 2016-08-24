@@ -2,8 +2,10 @@
 #include <TCanvas.h>
 #include <TH1.h>
 #include <TF1.h>
+#include <TH2.h>
 #include <TFile.h>
 #include <TROOT.h>
+#include <TTree.h>
 
 using namespace std;
 
@@ -42,6 +44,37 @@ int main()
 
     file->Close();
     file2->Close();
+
+    // ******************************************************************
+    // p. 13
+
+    float x4;
+    float x5;
+    TBranch *b_x4;
+    TBranch *b_x5;
+    TTree *ntuple;
+    TH2F *h_x4_x5;
+    TFile *file3 = new TFile("../mc_sample1.root", "READ");
+    file3->GetObject("ntuple", ntuple);
+    ntuple->SetBranchAddress("x4", &x4, &b_x4);
+    ntuple->SetBranchAddress("x5", &x5, &b_x5);
+    int nevents = ntuple->GetEntries();
+
+    h_x4_x5 = new TH2F("h_x4_x5", "x4_x5", 50, 0.0, 3.0, 50, 0.0, 3.0);
+
+
+    for(int i=0; i<nevents; i++)
+    {
+        ntuple->GetEntry(i);
+        h_x4_x5->Fill(x4, x5);
+    }
+
+    canvas->Clear();
+    h_x4_x5->Draw("hist");
+    canvas->SaveAs("x4x5.jpg");
+    canvas->SaveAs("x4x5.eps");
+
+
     return 0;
 }
 

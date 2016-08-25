@@ -11,6 +11,7 @@ void cwiczenie4::Loop(const char *filename)
 {
    if (fChain == 0) return;
 
+   TH1F *h_m = new TH1F("h_m", "m value", 100, 0.0, 14.0);
    Long64_t nentries = fChain->GetEntriesFast();
 
    Long64_t nbytes = 0, nb = 0;
@@ -19,7 +20,14 @@ void cwiczenie4::Loop(const char *filename)
       Long64_t ientry = LoadTree(jentry);
       if (ientry < 0) break;
       nb = fChain->GetEntry(jentry);   nbytes += nb;
+
+      h_m->Fill(m);
    }
+
+   TFile *file = new TFile(filename, "RECREATE");
+   h_m->Write();
+   file->Close();
+
 }
 
 int main(int argc, char** argv)

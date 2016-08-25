@@ -8,6 +8,8 @@
 //#define DEBUG
 
 using namespace std;
+double E = 6.5;
+
 double G_x(double x)
 {
     double exp = 5/4.0;
@@ -75,12 +77,14 @@ double* Q_distribution(int n)
     return custom_distribution(inwersja_Q, n);
 }
 
-
-Double_t myfunction(Double_t *x, Double_t *par)
+double computeMass(double x1, double x2)
 {
-   Float_t xx =x[0];
-   Double_t f = TMath::Abs(par[0]*sin(par[1]*xx)/xx);
-   return f;
+    return 2*E*TMath::Power(x1*x2, 1/2.0);
+}
+
+double computeVelocity(double x1, double x2)
+{
+    return (x1-x2)/(x1+x2);
 }
 
 int main()
@@ -90,7 +94,7 @@ int main()
 
 //    cout << "x=4, G_x=" << G_x(0.0024) << ", inwersja_G=" << inwersja_G(0.0024) << endl;
 
-    int n = 1000000;
+    int n = 1e6;
     double* G_dist = G_distribution(n);
     double* Q_dist = Q_distribution(n);
     for(int i=0; i<n; i++)
@@ -107,7 +111,7 @@ int main()
     gFit->SetParameter(1, 4);
     h_G->Fit(gFit);
 
-    TF1* qFit = new TF1("qFit", "[0]*([2]-pow(x, [1]))", 0, 1);
+    TF1* qFit = new TF1("qFit", "[0]*([2]-pow(x, [1]))", -5, 10);
     qFit->SetParameter(0, 5.0);
     qFit->SetParameter(1, 1/4.0);
     qFit->SetParameter(2, 1);
@@ -122,11 +126,60 @@ int main()
     h_Q->SetLineColor(kRed);
     h_Q->Draw("same");
 
-    qFit->SetLineColor(kBlue);
     gFit->Draw("same");
+    qFit->SetLineColor(kBlue);
     qFit->Draw("same");
 
     canvas->SaveAs("histG_Q.jpg");
+
+
+
+
+    TH1F* h_mass1 = new TH1F("h_mass1", "h_mass", 1000, 0, 1);
+    TH1F* h_mass2 = new TH1F("h_mass2", "h_mass", 1000, 0, 1);
+    TH1F* h_mass3 = new TH1F("h_mass3", "h_mass", 1000, 0, 1);
+
+    TH1F* h_v1 = new TH1F("v_v1", "h_mass", 1000, 0, 1);
+    TH1F* h_v2 = new TH1F("h_v2", "h_mass", 1000, 0, 1);
+    TH1F* h_v3 = new TH1F("h_v3", "h_mass", 1000, 0, 1);
+
+    for(int i=0;i<n;i++)
+    {
+        double x1 = G_dist[i];
+        double x2 = Q_dist[i];
+        double masaNiezmiennicza = computeMass(x1, x2);
+        h_mass1->Fill(masaNiezmiennicza);
+        masaNiezmiennicza = computeMass(x1, x1);
+        h_mass2->Fill(masaNiezmiennicza);
+        masaNiezmiennicza = computeMass(x2, x2);
+        h_mass3->Fill(masaNiezmiennicza);
+
+        double predkosc = computeVelocity(x1, x2);
+        h_v1->Fill(predkosc);
+        predkosc = computeVelocity(x1, x1);
+        h_v2->Fill(predkosc);
+        predkosc = computeVelocity(x2, x2);
+        h_v3->Fill(predkosc);
+    }
+
+    canvas->Clear();
+    h_mass1->Draw();
+    h_mass2->SetLineColor(kRed);
+    h_mass2->Draw("same");
+    h_mass3->SetLineColor(kGreen);
+    h_mass3->Draw("same");
+    canvas->SaveAs("masaNiezmiennicza.jpg");
+
+
+    canvas->Clear();
+    h_v1->Draw();
+    h_v2->SetLineColor(kRed);
+    h_v2->Draw("same");
+    h_v3->SetLineColor(kGreen);
+    h_v3->Draw("same");
+    canvas->SaveAs("predkosc.jpg");
+
+
 
     return 0;
 }

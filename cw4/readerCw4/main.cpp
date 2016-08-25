@@ -54,16 +54,22 @@ int main(int argc, char** argv)
     h_m_data->SetLineColor(kRed);
     h_m_data->Draw("P E1");
 
+    if(selectedDataHistogram)
+    {
+        canvas->SaveAs("selectedDataHistograms.jpg");
+        fileData->Close();
+        fileBackground->Close();
+        fileSignal->Close();
+        return 0;
+    }
+
     h_m_background->Scale(h_m_data->GetEntries()/h_m_background->GetEntries());
     h_m_background->Draw("same");
 
     h_m_signal->Scale(h_m_data->GetEntries()/h_m_signal->GetEntries()/10000.0);
     h_m_signal->Draw("same");
 
-    if(selectedDataHistogram)
-        canvas->SaveAs("selectedDataHistograms.jpg");
-    else
-        canvas->SaveAs("histograms.jpg");
+    canvas->SaveAs("histograms.jpg");
 
     fileData->Close();
     fileBackground->Close();

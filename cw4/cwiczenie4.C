@@ -3,8 +3,11 @@
 #include <TH2.h>
 #include <TStyle.h>
 #include <TCanvas.h>
+#include <iostream>
 
-void cwiczenie4::Loop()
+using namespace std;
+
+void cwiczenie4::Loop(const char *filename)
 {
    if (fChain == 0) return;
 
@@ -12,9 +15,32 @@ void cwiczenie4::Loop()
 
    Long64_t nbytes = 0, nb = 0;
    for (Long64_t jentry=0; jentry<nentries;jentry++) {
+
       Long64_t ientry = LoadTree(jentry);
       if (ientry < 0) break;
       nb = fChain->GetEntry(jentry);   nbytes += nb;
-      // if (Cut(ientry) < 0) continue;
    }
+}
+
+int main(int argc, char** argv)
+{
+    if(argc != 3)
+    {
+        cout << "Zla liczba argumentow. Uruchom program z dwoma parametrami: ./prog input.root output.root" << endl;
+        return -1;
+    }
+
+    char* inputFile = argv[1];
+    char* outputFile = argv[2];
+
+    cout << "Input set: " << inputFile << endl;
+    cout << "Output set: " << outputFile << endl;
+
+    TChain* chain = new TChain("ntuple");
+    chain->Add(inputFile);
+
+    cwiczenie4 cw(chain);
+    cw.Loop(outputFile);
+
+    return 0;
 }

@@ -9,19 +9,40 @@
 
 using namespace std;
 
-int main()
+int main(int argc, char** argv)
 {
+    bool selectedDataHistogram = false;
+    if(argc==2)
+    {
+        string selectionString = argv[1];
+        if(selectionString == "true")
+            selectedDataHistogram = true;
+    }
+
     TH1F *h_m_data;
     TH1F *h_m_background;
     TH1F *h_m_signal;
 
-    TFile *fileData = new TFile("../generatedData/data.root", "READ");
+    TFile *fileData;
+    TFile *fileBackground;
+    TFile *fileSignal;
+
+    if(selectedDataHistogram)
+        fileData = new TFile("../selectedData/data.root", "READ");
+    else
+        fileData = new TFile("../generatedData/data.root", "READ");
     fileData->GetObject("h_m", h_m_data);
 
-    TFile *fileBackground = new TFile("../generatedData/mc_background.root", "READ");
+    if(selectedDataHistogram)
+        fileBackground = new TFile("../selectedData/mc_background.root", "READ");
+    else
+        fileBackground = new TFile("../generatedData/mc_background.root", "READ");
     fileBackground->GetObject("h_m", h_m_background);
 
-    TFile *fileSignal = new TFile("../generatedData/mc_signal.root", "READ");
+    if(selectedDataHistogram)
+        fileSignal = new TFile("../selectedData/mc_signal.root", "READ");
+    else
+        fileSignal = new TFile("../generatedData/mc_signal.root", "READ");
     fileSignal->GetObject("h_m", h_m_signal);
 
     TCanvas *canvas = new TCanvas();
@@ -37,8 +58,10 @@ int main()
     h_m_signal->Scale(h_m_data->GetEntries()/h_m_signal->GetEntries()/10000.0);
     h_m_signal->Draw("same");
 
-    canvas->SaveAs("histogramy.jpg");
-    canvas->SaveAs("histogramy.eps");
+    if(selectedDataHistogram)
+        canvas->SaveAs("selectedDataHistograms.jpg");
+    else
+        canvas->SaveAs("histograms.jpg");
 
     fileData->Close();
     fileBackground->Close();

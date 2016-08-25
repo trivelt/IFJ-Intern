@@ -11,7 +11,7 @@ void cwiczenie4::Loop(const char *filename)
 {
    if (fChain == 0) return;
 
-   TH1F *h_m = new TH1F("h_m", "m value", 100, 0.0, 14.0);
+   TH1F *h_m = new TH1F("h_m", "m value", 100, 0.0, 15.0);
    Long64_t nentries = fChain->GetEntriesFast();
 
    Long64_t nbytes = 0, nb = 0;

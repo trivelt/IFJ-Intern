@@ -47,7 +47,9 @@ int main(int argc, char** argv)
 
     TCanvas *canvas = new TCanvas();
     canvas->Clear();
-    canvas->SetLogy();
+
+    if(!selectedDataHistogram)
+        canvas->SetLogy();
 
     h_m_data->SetLineColor(kRed);
     h_m_data->Draw("P E1");

@@ -30,7 +30,7 @@ void cwiczenie4::Loop(const char *filename, bool selection)
 
       if(selection)
       {
-          if(x1>0.5 && x2>0 && TMath::Abs(x3)<2 && TMath::Abs(x4+x5)<2 && x7-x6<0)
+          if(x1>0 && x2>0 && TMath::Abs(x3)<2 && TMath::Abs(x4+x5)<2 && (x7-x6)<0)
               h_m->Fill(m);
       }
       else
